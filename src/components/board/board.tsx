@@ -1,44 +1,27 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
+import {useSelector} from "react-redux";
 import {Cell} from "../cell/cell.tsx";
 import {useCellsInitialization} from "../../hooks/use-cells-initialization.ts";
-import {useBoardSlides} from "../../hooks/use-board-slides.ts";
 import {useMovementHandler} from "../../hooks/use-movement-handler.ts";
 import {useSwipe} from "../../hooks/use-swipe.ts";
+import {useKeyboard} from "../../hooks/use-keyboard.ts";
+import {GameSelectors} from "../../store/game/selectors.ts";
 import './board.scss';
 
 export const Board = () => {
   const boardRef = useRef<HTMLDivElement>(null);
 
-  const [board, setBoard] = useState([
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ]);
-  const [score, setScore] = useState(0);
+  const board = useSelector(GameSelectors.selectBoard);
 
-  const {setValueInRandomPlace} = useCellsInitialization({board, setBoard});
-
-  const {slideLeft, slideRight, slideUp, slideDown} = useBoardSlides({board, setScore});
-
-  const {makeSlidesMove} = useMovementHandler({
-    setValueInRandomPlace,
-    slideLeft,
-    slideRight,
-    slideUp,
-    slideDown
-  });
+  const {setValueInRandomPlace} = useCellsInitialization();
+  const {makeSlidesMove} = useMovementHandler();
 
   const initGame = () => {
     setValueInRandomPlace();
     setValueInRandomPlace();
-
-    document.addEventListener('keyup', makeSlidesMove);
   };
 
-  const destroyGame = () => {
-    document.removeEventListener('keyup', makeSlidesMove);
-  };
+  const destroyGame = () => {};
 
   useEffect(() => {
     initGame();
@@ -46,27 +29,30 @@ export const Board = () => {
     return () => destroyGame();
   }, []);
 
-  const {touch} = useSwipe(boardRef);
+  const {touchDirection} = useSwipe(boardRef);
+  const {keyDirection} = useKeyboard(boardRef);
+
   useEffect(() => {
-    makeSlidesMove(touch);
-  }, [touch]);
+    makeSlidesMove(touchDirection);
+  }, [touchDirection]);
+
+  useEffect(() => {
+    makeSlidesMove(keyDirection);
+  }, [keyDirection]);
 
   return (
-    <>
-      <h2>Счет: {score}</h2>
-      <div className="board-container"
-           ref={boardRef}
-      >
-        {
-          board.map((row, rowIndex) => (
-            row.map((cellValue, columnIndex) => (
-              <Cell key={`${rowIndex}-${columnIndex}`}
-                    value={cellValue}
-              />
-            ))
+    <div className="board-container"
+         ref={boardRef}
+    >
+      {
+        board.map((row, rowIndex) => (
+          row.map((cellValue, columnIndex) => (
+            <Cell key={`${rowIndex}-${columnIndex}`}
+                  value={cellValue}
+            />
           ))
-        }
-      </div>
-    </>
+        ))
+      }
+    </div>
   )
 }

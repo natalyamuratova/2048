@@ -1,6 +1,5 @@
 import {RefObject, useEffect, useRef, useState} from "react";
-
-export type TouchType = 'left' | 'right' | 'up' | 'down' | '';
+import {Direction} from "../types/direction.ts";
 
 export function useSwipe(container: RefObject<HTMLElement>) {
   const touchStartX = useRef(0);
@@ -8,24 +7,24 @@ export function useSwipe(container: RefObject<HTMLElement>) {
   const touchEndX = useRef(0);
   const touchEndY = useRef(0);
 
-  const [touch, setTouch] = useState<TouchType>('');
+  const [touchDirection, setTouchDirection] = useState<Direction>('');
 
   const handleGesure = () => {
     const deltaX = touchEndX.current - touchStartX.current;
     const deltaY = touchEndY.current - touchStartY.current;
     if (Math.abs(deltaX) > Math.abs(deltaY)) {
       if (deltaX > 0) {
-        setTouch('right');
+        setTouchDirection('right');
       } else {
-        setTouch('left');
+        setTouchDirection('left');
       }
     } else if (deltaY > 0) {
-      setTouch('down');
+      setTouchDirection('down');
     } else {
-      setTouch('up');
+      setTouchDirection('up');
     }
     setTimeout(() => {
-      setTouch('');
+      setTouchDirection('');
     });
   };
 
@@ -51,6 +50,6 @@ export function useSwipe(container: RefObject<HTMLElement>) {
   }, [container]);
 
   return {
-    touch,
+    touchDirection,
   };
 }

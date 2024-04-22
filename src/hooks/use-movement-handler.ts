@@ -1,21 +1,22 @@
-import {GameLogicComposableReturn} from "./use-board-slides.ts";
-import {CellsInitializationComposableReturn} from "./use-cells-initialization.ts";
-import {TouchType} from "./use-swipe.ts";
+import {useBoardSlides} from "./use-board-slides.ts";
+import {useCellsInitialization} from "./use-cells-initialization.ts";
+import {Direction} from "../types/direction.ts";
 
-type MovementHandlerComposableArgs = GameLogicComposableReturn & CellsInitializationComposableReturn;
+export function useMovementHandler() {
+  const { slideLeft, slideRight, slideUp, slideDown } = useBoardSlides();
+  const { setValueInRandomPlace } = useCellsInitialization();
 
-export function useMovementHandler({ slideLeft, slideRight, slideUp, slideDown, setValueInRandomPlace}: MovementHandlerComposableArgs) {
-  const makeSlidesMove = (event: KeyboardEvent | TouchType) => {
-    if (event === 'left' || (event as KeyboardEvent)?.code === 'ArrowLeft') {
+  const makeSlidesMove = (direction: Direction) => {
+    if (direction === 'left') {
       slideLeft();
       setValueInRandomPlace();
-    } else if (event === 'right' || (event as KeyboardEvent)?.code === 'ArrowRight') {
+    } else if (direction === 'right') {
       slideRight();
       setValueInRandomPlace();
-    } else if (event === 'up' || (event as KeyboardEvent)?.code === 'ArrowUp') {
+    } else if (direction === 'up') {
       slideUp();
       setValueInRandomPlace();
-    } else if (event === 'down' || (event as KeyboardEvent)?.code === 'ArrowDown') {
+    } else if (direction === 'down') {
       slideDown();
       setValueInRandomPlace();
     }

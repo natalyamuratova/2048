@@ -1,20 +1,13 @@
-import {StateSetter} from "../types/utility-types.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {increaseScore, updateBoardColumn, updateBoardRow} from "../store/game";
+import {GameSelectors} from "../store/game/selectors.ts";
 
-interface GameLogicComposableArgs {
-  board: number[][];
-  setScore: StateSetter<number>;
-}
+export function useBoardSlides() {
+  const dispatch = useDispatch();
 
-export interface GameLogicComposableReturn {
-  slideLeft: () => void;
-  slideRight: () => void;
-  slideUp: () => void;
-  slideDown: () => void;
-}
-
-export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): GameLogicComposableReturn {
-  const rows = board.length;
-  const columns = board?.[0].length ?? 0;
+  const board = useSelector(GameSelectors.selectBoard);
+  const rows = useSelector(GameSelectors.selectColumns);
+  const columns = useSelector(GameSelectors.selectRows);
 
   const filterZero = (row: number[]) => row.filter((num) => num !== 0);
 
@@ -25,7 +18,7 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
       if (filteredRow[i] === filteredRow[i + 1]) {
         filteredRow[i] *= 2;
         filteredRow[i + 1] = 0;
-        setScore((prevScore) => (prevScore + filteredRow[i]));
+        dispatch(increaseScore(filteredRow[i]));
       }
     } // [4, 0, 2]
     filteredRow = filterZero(filteredRow); // [4, 2]
@@ -37,18 +30,18 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
 
   const slideLeft = () => {
     for (let r = 0; r < rows; r += 1) {
-      let row = board[r]; // [0, 2, 2, 2]
+      let row = [...board[r]]; // [0, 2, 2, 2]
       row = slide(row); // [0, 0, 2, 4];
-      board[r] = row;
+      dispatch(updateBoardRow({ row: r, value: row }));
     }
   };
 
   const slideRight = () => {
     for (let r = 0; r < rows; r += 1) {
-      let row = board[r]; // [0, 2, 2, 2]
+      let row = [...board[r]]; // [0, 2, 2, 2]
       row.reverse(); // [2, 2, 2, 0]
       row = slide(row); // [4, 2, 0, 0]
-      board[r] = row.reverse(); // [0, 0, 2, 4];
+      dispatch(updateBoardRow({ row: r, value: row.reverse() }));// [0, 0, 2, 4];
     }
   };
 
@@ -56,9 +49,7 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
     for (let c = 0; c < columns; c += 1) {
       let row = Array.from({ length: rows }, (_, i) => (board[i][c]));
       row = slide(row);
-      for (let r = 0; r < rows; r += 1) {
-        board[r][c] = row[r];
-      }
+      dispatch(updateBoardColumn({ col: c, value: row }));
     }
   };
 
@@ -67,10 +58,7 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
       let row = Array.from({ length: rows }, (_, i) => (board[i][c]));
       row.reverse();
       row = slide(row);
-      row.reverse();
-      for (let r = 0; r < rows; r += 1) {
-        board[r][c] = row[r];
-      }
+      dispatch(updateBoardColumn({ col: c, value: row.reverse() }));
     }
   };
 

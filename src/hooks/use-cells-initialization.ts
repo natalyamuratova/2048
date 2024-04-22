@@ -1,17 +1,13 @@
-import {StateSetter} from "../types/utility-types.ts";
+import {updateBoardCell} from "../store/game";
+import {useDispatch, useSelector} from "react-redux";
+import {GameSelectors} from "../store/game/selectors.ts";
 
-interface CellsInitializationComposableArgs {
-  board: number[][];
-  setBoard: StateSetter<number[][]>;
-}
+export function useCellsInitialization() {
+  const dispatch = useDispatch();
 
-export interface CellsInitializationComposableReturn {
-  setValueInRandomPlace: () => void;
-}
-
-export function useCellsInitialization({ board, setBoard }: CellsInitializationComposableArgs): CellsInitializationComposableReturn {
-  const rows = board.length;
-  const columns = board?.[0].length ?? 0;
+  const board = useSelector(GameSelectors.selectBoard);
+  const rows = useSelector(GameSelectors.selectColumns);
+  const columns = useSelector(GameSelectors.selectRows);
 
   const hasEmptyCell = () => board.find((row) => row.some((cellValue) => (cellValue === 0))) !== undefined;
 
@@ -29,8 +25,7 @@ export function useCellsInitialization({ board, setBoard }: CellsInitializationC
       const r = Math.floor(Math.random() * rows);
       const c = Math.floor(Math.random() * columns);
       if (board[r][c] === 0) {
-        board[r][c] = getNewValue();
-        setBoard([...board]);
+        dispatch(updateBoardCell({ col: c, row: r, value: getNewValue() }));
         found = true;
       }
     }
