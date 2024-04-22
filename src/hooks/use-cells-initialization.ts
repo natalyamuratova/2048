@@ -1,12 +1,12 @@
 import {StateSetter} from "../types/utility-types.ts";
 
 interface CellsInitializationComposableArgs {
-    board: number[][];
-    setBoard: StateSetter<number[][]>;
+  board: number[][];
+  setBoard: StateSetter<number[][]>;
 }
 
 export interface CellsInitializationComposableReturn {
-    setValueInRandomPlace: () => void;
+  setValueInRandomPlace: () => void;
 }
 
 export function useCellsInitialization({ board, setBoard }: CellsInitializationComposableArgs): CellsInitializationComposableReturn {

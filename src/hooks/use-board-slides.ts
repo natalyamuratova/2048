@@ -54,7 +54,7 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
 
   const slideUp = () => {
     for (let c = 0; c < columns; c += 1) {
-      let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+      let row = Array.from({ length: rows }, (_, i) => (board[i][c]));
       row = slide(row);
       for (let r = 0; r < rows; r += 1) {
         board[r][c] = row[r];
@@ -64,7 +64,7 @@ export function useBoardSlides({ board, setScore }: GameLogicComposableArgs): Ga
 
   const slideDown = () => {
     for (let c = 0; c < columns; c += 1) {
-      let row = [board[0][c], board[1][c], board[2][c], board[3][c]];
+      let row = Array.from({ length: rows }, (_, i) => (board[i][c]));
       row.reverse();
       row = slide(row);
       row.reverse();

@@ -1,3 +1,5 @@
+@import "src/styles/constants";
+
 $board-width-desktop: 400px;
 $board-width-mobile: 280px;
 
@@ -12,7 +14,7 @@ $board-width-mobile: 280px;
   display: flex;
   flex-wrap: wrap;
 
-  @media (max-width: 400px) {
+  @media (max-width: $mobile-breakpoint-width) {
     width: $board-width-mobile;
     height: $board-width-mobile;
   }

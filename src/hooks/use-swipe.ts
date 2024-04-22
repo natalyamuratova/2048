@@ -41,8 +41,8 @@ export function useSwipe(container: RefObject<HTMLElement>) {
   };
 
   useEffect(() => {
-    container.current?.removeEventListener('touchstart', onTouchStart);
-    container.current?.removeEventListener('touchend', onTouchEnd);
+    container.current?.addEventListener('touchstart', onTouchStart);
+    container.current?.addEventListener('touchend', onTouchEnd);
 
     return () => {
       container.current?.removeEventListener('touchstart', onTouchStart);

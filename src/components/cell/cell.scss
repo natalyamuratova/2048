@@ -1,3 +1,5 @@
+@import "src/styles/constants";
+
 $cell-size-desktop: 90px;
 $cell-size-mobile: 60px;
 
@@ -12,7 +14,7 @@ $cell-size-mobile: 60px;
   justify-content: center;
   align-items: center;
 
-  @media (max-width: 400px) {
+  @media (max-width: $mobile-breakpoint-width) {
     width: $cell-size-mobile;
     height: $cell-size-mobile;
   }
