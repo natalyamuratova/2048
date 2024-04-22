@@ -30,7 +30,7 @@ export const Board = () => {
   }, []);
 
   const {touchDirection} = useSwipe(boardRef);
-  const {keyDirection} = useKeyboard(boardRef);
+  const {keyDirection} = useKeyboard();
 
   useEffect(() => {
     makeSlidesMove(touchDirection);

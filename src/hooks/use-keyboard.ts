@@ -1,7 +1,7 @@
-import {RefObject, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Direction} from "../types/direction.ts";
 
-export function useKeyboard(container: RefObject<HTMLElement>) {
+export function useKeyboard() {
   const [keyDirection, setKeyDirection] = useState<Direction>('');
 
   const handleArrowKeyDown = (event: KeyboardEvent) => {
@@ -20,10 +20,10 @@ export function useKeyboard(container: RefObject<HTMLElement>) {
   }
 
   useEffect(() => {
-    container.current?.addEventListener('keyup', handleArrowKeyDown);
+    document.addEventListener('keyup', handleArrowKeyDown);
 
     return () => {
-      container.current?.removeEventListener('keyup', handleArrowKeyDown);
+      document.removeEventListener('keyup', handleArrowKeyDown);
     }
   }, []);
 
