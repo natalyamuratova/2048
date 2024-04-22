@@ -36,10 +36,14 @@ const gameSlice = createSlice({
       for (let row = 0; row < rows; row += 1) {
         state.board[row][col] = value[row];
       }
+    },
+    resetState(state) {
+      state.board = initialState.board;
+      state.score = initialState.score;
     }
   },
 });
 
-export const { increaseScore, updateBoardCell, updateBoardRow, updateBoardColumn } = gameSlice.actions;
+export const { increaseScore, updateBoardCell, updateBoardRow, updateBoardColumn, resetState } = gameSlice.actions;
 
 export default gameSlice.reducer;

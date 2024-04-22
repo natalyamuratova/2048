@@ -21,24 +21,16 @@ export const Board = () => {
     setValueInRandomPlace();
   };
 
-  const destroyGame = () => {};
-
   useEffect(() => {
     initGame();
-
-    return () => destroyGame();
   }, []);
 
   const {touchDirection} = useSwipe(boardRef);
   const {keyDirection} = useKeyboard();
 
   useEffect(() => {
-    makeSlidesMove(touchDirection);
-  }, [touchDirection]);
-
-  useEffect(() => {
-    makeSlidesMove(keyDirection);
-  }, [keyDirection]);
+    makeSlidesMove(keyDirection || touchDirection);
+  }, [keyDirection, touchDirection]);
 
   return (
     <div className="board-container"
