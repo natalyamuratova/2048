@@ -1,7 +1,8 @@
+import {useState} from "react";
 import {useBoardSlides} from "./use-board-slides.ts";
 import {useCellsInitialization} from "./use-cells-initialization.ts";
 import {Direction} from "../types/direction.ts";
-import {useEffect, useState} from "react";
+import useWatcher from "./use-watcher.ts";
 
 export function useMovementHandler() {
   const { slideLeft, slideRight, slideUp, slideDown } = useBoardSlides();
@@ -19,10 +20,13 @@ export function useMovementHandler() {
     } else if (direction === 'down') {
       slideDown();
     }
-    setSlideChanged((prev) => !prev);
+
+    if (direction) {
+      setSlideChanged((prev) => !prev);
+    }
   }
 
-  useEffect(() => {
+  useWatcher(() => {
     setValueInRandomPlace();
   }, [slideChanged]);
 
