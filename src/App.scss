@@ -1,7 +1,15 @@
+@import "src/styles/constants.scss";
+
 .app-container {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   place-items: center;
+
+  @media (max-width: $mobile-breakpoint-width) {
+    height: unset;
+    justify-content: flex-start;
+    padding-top: 30%;
+  }
 }

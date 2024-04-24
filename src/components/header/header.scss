@@ -1,3 +1,9 @@
+@import "src/styles/constants";
+
 hr {
   width: 400px;
+
+  @media (max-width: $mobile-breakpoint-width) {
+    width: 300px;
+  }
 }
