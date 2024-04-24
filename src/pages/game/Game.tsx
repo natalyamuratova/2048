@@ -10,6 +10,16 @@ export const Game = () => {
   const score = useSelector(GameSelectors.selectScore);
 
   useEffect(() => {
+    document.addEventListener('touchstart', function(e: TouchEvent) {
+      e.preventDefault();
+      document.documentElement.style.overflow = 'hidden';
+    });
+
+    document.addEventListener('touchend', function(e: TouchEvent) {
+      e.preventDefault();
+      document.documentElement.style.overflow = 'auto';
+    });
+
     return () => { dispatch(resetState()); };
   }, []);
 
