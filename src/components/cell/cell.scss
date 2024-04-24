@@ -17,6 +17,7 @@ $cell-size-mobile: 60px;
   @media (max-width: $mobile-breakpoint-width) {
     width: $cell-size-mobile;
     height: $cell-size-mobile;
+    font-size: 28px;
   }
 }
 

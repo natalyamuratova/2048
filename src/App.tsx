@@ -1,13 +1,13 @@
-import './App.css'
 import {Game} from "./pages/game/Game.tsx";
+import {Header} from "./components/header/header.tsx";
+import './App.scss';
 
 function App() {
   return (
-    <>
-      <h1>2048</h1>
-      <hr/>
+    <div className="app-container">
+      <Header/>
       <Game/>
-    </>
+    </div>
   )
 }
 

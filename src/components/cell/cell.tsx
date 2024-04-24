@@ -6,11 +6,12 @@ interface CellProps {
 }
 
 export const Cell: FC<CellProps> = ({ value }) => {
+  const cellValue = value > 0 ? value : '';
   const cellValueClass = value > 0 ? `x${value}` : '';
 
   return (
     <div className={`cell ${cellValueClass}`}>
-      {value > 0 ? value : ''}
+      {cellValue}
     </div>
   )
 }

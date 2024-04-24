@@ -30,8 +30,8 @@ export function useBoardSlides() {
 
   const slideLeft = () => {
     for (let r = 0; r < rows; r += 1) {
-      let row = [...board[r]]; // [0, 2, 2, 2]
-      row = slide(row); // [0, 0, 2, 4];
+      let row = [...board[r]]; // [2, 2, 2, 0]
+      row = slide(row); // [4, 2, 0, 0];
       dispatch(updateBoardRow({ row: r, value: row }));
     }
   };
