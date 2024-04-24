@@ -10,18 +10,6 @@ export const Game = () => {
   const score = useSelector(GameSelectors.selectScore);
 
   useEffect(() => {
-    document.addEventListener('touchstart', function(e: TouchEvent) {
-      e.preventDefault();
-      // e.stopPropagation();
-      // document.documentElement.style.overflow = 'hidden';
-    }, { passive: false });
-
-    document.addEventListener('touchend', function(e: TouchEvent) {
-      e.preventDefault();
-      // e.stopPropagation();
-      // document.documentElement.style.overflow = 'auto';
-    }, { passive: false });
-
     return () => { dispatch(resetState()); };
   }, []);
 
